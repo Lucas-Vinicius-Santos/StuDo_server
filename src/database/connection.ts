@@ -9,4 +9,4 @@ const db = Knex({
   },
 })
 
-export default dp;
+export default db;

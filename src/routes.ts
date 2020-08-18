@@ -1,13 +1,14 @@
 import express from 'express';
 
+import ActivityController from './controllers/ActivityController'
+
 const routes = express.Router();
 
-routes.get('/to-do-list', (req, res) => {
-  return res.send('Tudo certo aki meu camarada')
-})
+const activityController = new ActivityController()
 
-routes.post('new-activity', (req, res) => {
-  return res.send('opa')
-})
+
+routes.get('/to-do-list', activityController.getAllActivities)
+
+routes.post('/new-activity', activityController.createActivity)
 
 export default routes;
