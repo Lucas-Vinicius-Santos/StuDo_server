@@ -27,15 +27,10 @@ export default class ActivityController {
       time
     } = req.body
 
-    console.log({
-      name, description, day, time
-    })
-
     const trx = await db.transaction();
 
     try {
 
-      console.log('> Criando conexão com db e inserindo dados');
       await trx('activities').insert({
         name, description, day, time: convertHourToMinutes(time)
       })
@@ -51,5 +46,17 @@ export default class ActivityController {
       return res.status(400).send()
 
     }
+  }
+
+  async deleteActivity(req: Request, res: Response) {
+    console.log('> Dentro da rota deleteActivity')
+    const { deleteId }= req.query;
+    const deleteIdValue = (deleteId as string)[1]
+
+    console.log(deleteIdValue, req.query)
+
+    await db('activities').where({id: deleteIdValue}).delete().then(data => console.log(data))
+
+    return res.status(200).send('Excluído com sucesso')
   }
 }
