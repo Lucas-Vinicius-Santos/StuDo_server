@@ -14,11 +14,13 @@
 
 ## Functionalities
 
-### Get all activities
+### Activities
 
-### Create a activity
+ - Get all 
 
-### Remove a activity
+ - Create a new 
+
+ - Remove
 
 ---
 
