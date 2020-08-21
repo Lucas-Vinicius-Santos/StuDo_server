@@ -14,13 +14,11 @@
 
 ## Functionalities
 
-### Connections
+### Get all activities
 
-  ~~~~
+### Create a activity
 
-### Class
-
-  ~~~~
+### Remove a activity
 
 ---
 
