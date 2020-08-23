@@ -21,7 +21,7 @@ export default class ActivityController {
   async createActivity(req: Request, res: Response) {
 
     const {  
-      name,
+      subject,
       description,
       day,
       time
@@ -32,7 +32,7 @@ export default class ActivityController {
     try {
 
       await trx('activities').insert({
-        name, description, day, time: convertHourToMinutes(time)
+        subject, description, day, time: convertHourToMinutes(time)
       })
 
       await trx.commit();
