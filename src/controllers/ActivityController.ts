@@ -1,15 +1,42 @@
 import { Request, Response } from 'express';
 
-import db from '../database/connection';
+import convertMinuteToHour from '../utils/convertMinuteToHour';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
+
+import db from '../database/connection';
+
+interface Activity {
+  variant: 'green' | 'blue' | 'orange' | 'red';
+  id: number;
+  subject: string;
+  description: string;
+  day: string;
+  time: string;
+}
 
 export default class ActivityController {
 
   async getAllActivities(req: Request, res: Response) {
     try { 
       const data = await db.select("*").table('activities');
-      
-      res.json(data)
+
+      console.log(data) // TEMP
+
+      const cabrito = []
+
+      for ( let i=0; i < data.length; i++ ) {
+        let aux = {
+          id: data[i].id,
+          subject: data[i].subject,
+          description: data[i].description,
+          day: data[i].day,
+          time: convertMinuteToHour(data[i].time.toString()),
+          variant: 'green'
+        }
+        cabrito.push(aux)
+      }
+
+      res.json(cabrito)
     } catch (err) {
 
       console.log(err)
