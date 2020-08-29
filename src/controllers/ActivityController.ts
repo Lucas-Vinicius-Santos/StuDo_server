@@ -2,27 +2,19 @@ import { Request, Response } from 'express';
 
 import convertMinuteToHour from '../utils/convertMinuteToHour';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
+import setColorToActivity from '../utils/setColorToActivity'
 
 import db from '../database/connection';
-
-interface Activity {
-  variant: 'green' | 'blue' | 'orange' | 'red';
-  id: number;
-  subject: string;
-  description: string;
-  day: string;
-  time: string;
-}
 
 export default class ActivityController {
 
   async getAllActivities(req: Request, res: Response) {
+
     try { 
+      
       const data = await db.select("*").table('activities');
 
-      console.log(data) // TEMP
-
-      const cabrito = []
+      const treatedActivities = []
 
       for ( let i=0; i < data.length; i++ ) {
         let aux = {
@@ -31,12 +23,13 @@ export default class ActivityController {
           description: data[i].description,
           day: data[i].day,
           time: convertMinuteToHour(data[i].time.toString()),
-          variant: 'green'
+          variant: setColorToActivity(data[i].day)
         }
-        cabrito.push(aux)
+        treatedActivities.push(aux)
       }
 
-      res.json(cabrito)
+      res.json(treatedActivities)
+
     } catch (err) {
 
       console.log(err)
@@ -76,7 +69,7 @@ export default class ActivityController {
   }
 
   async deleteActivity(req: Request, res: Response) {
-    console.log('> Dentro da rota deleteActivity')
+
     const { deleteId }= req.query;
     const deleteIdValue = (deleteId as string)[1]
 
@@ -85,5 +78,6 @@ export default class ActivityController {
     await db('activities').where({id: deleteIdValue}).delete().then(data => console.log(data))
 
     return res.status(200).send('Excluído com sucesso')
+
   }
 }

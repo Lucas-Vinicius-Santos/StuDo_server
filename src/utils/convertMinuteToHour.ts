@@ -1,8 +1,6 @@
 
 export default function convertMinuteToHour(stringNumber: string) {
 
-  console.log('> convertMinuteToHour')
-
   const number = parseInt(stringNumber)
 
   const hours = Math.floor(number / 60);
