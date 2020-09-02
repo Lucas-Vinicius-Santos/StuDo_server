@@ -13,10 +13,10 @@ export default class ActivityController {
     try { 
       
       const data = await db.select("*").table('activities');
-
       const treatedActivities = []
 
       for ( let i=0; i < data.length; i++ ) {
+
         let aux = {
           id: data[i].id,
           subject: data[i].subject,
@@ -25,7 +25,16 @@ export default class ActivityController {
           time: convertMinuteToHour(data[i].time.toString()),
           variant: setColorToActivity(data[i].day)
         }
-        treatedActivities.push(aux)
+
+        if (aux.variant == 'white') {
+          // Deleta atividades expiradas
+          await db('activities').where({ id: aux.id }).delete().then(data => console.log('Foram deletadas '+data+' atividades'))
+
+        } else {
+          treatedActivities.push(aux)
+
+        }
+
       }
 
       res.json(treatedActivities)
@@ -75,9 +84,16 @@ export default class ActivityController {
 
     console.log(deleteIdValue, req.query)
 
-    await db('activities').where({id: deleteIdValue}).delete().then(data => console.log(data))
+    await db('activities').where({ id: deleteIdValue }).delete().then(data => console.log('Foram deletadas '+data+' atividades'))
 
     return res.status(200).send('Excluído com sucesso')
+
+  }
+
+  async deleteThisActivity(id: string) {
+
+    // let activityId = parseInt(id)
+    await db('activities').where({ id }).delete().then(data => console.log('Foram deletadas '+data+' atividades'))
 
   }
 }

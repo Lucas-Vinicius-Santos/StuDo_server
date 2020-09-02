@@ -26,6 +26,10 @@ export default function setColorToActivity(day: string) {
       return 'green'
   
     } 
+    if ( actualDay > justDay ) {
+      return 'white'
+
+    }
 
   } else if ( justMonth > date.getMonth() ) {
 
@@ -36,6 +40,10 @@ export default function setColorToActivity(day: string) {
     if ( (actualDay + 2) == (justDay + arrayNumberOfDaysInMonth[date.getMonth()]) ) {
       return 'green'
     }
+
+  } else {
+
+    return 'white'
 
   }
 
