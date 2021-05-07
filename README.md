@@ -40,7 +40,7 @@ Main technologies used in the project
 
 ```bash
 # Clone Repository
-$ git clone https://github.com/SuiciniVz/StuDo_server.git
+$ git clone https://github.com/lucas-vinicius-santos/StuDo_server.git
 
 # Install Dependencies
 $ yarn install
